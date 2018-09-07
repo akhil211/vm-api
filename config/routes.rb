@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
       resource  :users, only: [] do
         get :profile, on: :collection
+        get :school_profile, on: :collection
       end
 
     end

@@ -6,23 +6,23 @@ class Api::V1::TokensController < Api::V1::BaseController
   def create
     @user = User.find_by(username: auth_params[:username])
     if @user.present? && @user.authenticate(auth_params[:password])
-      render json: login_success
+      render_success(login_data, 'Logged In Successfully')
     else
-      render json: invalid_login_details
+      render_error('Invalid User Id or Password')
     end
   end
 
   def request_otp
     @user.send_otp
-    render json: otp_success
+    render_success( {otp: @user.otp}, 'OTP sent successfully')
   end
 
   def mobile_authentication
     if @user.valid_otp?(auth_params[:otp])
       @user.reset_otp
-      render json: login_success
+      render_success(login_data, 'Logged In Successfully')
     else
-      render json: invalid_otp
+      render_error("OTP didn't match")
     end
   end
 
@@ -34,56 +34,26 @@ class Api::V1::TokensController < Api::V1::BaseController
 
     def find_by_contact
       @user = User.find_by(contact_no: auth_params[:mobile_no])
-      render_invalid_contact and return unless @user.present?
-    end
-
-    def render_invalid_contact
-      render json: invalid_contact
+      render_error(invalid_contact_msg) and return unless @user.present?
     end
 
     def jwt_token
       Auth.issue({user: @user.id})
     end
 
-    def invalid_contact
-      {
-        success: false,
-        message: 'The mobile no entered is not present in our database . Kindly contact school to update Mobile No'
-      }
+    def invalid_contact_msg
+      'The mobile no entered is not present in our database . Kindly contact school to update Mobile No'
     end
 
-    def invalid_otp
-      {
-        success: false,
-        message: "OTP didn't match"
-      }
-    end
-
-    def invalid_login_details
-      {
-        success: false,
-        message: "Invalid User Id or Password"
-      }
-    end
-
-    def login_success
+    def login_data
       #TODO add school logo
       {
-        success: true,
         token: jwt_token,
         user_type: @user.role.name,
         id: @user.id,
         name: @user.full_name,
         school_name: @user.school.name.titleize,
         school_logo: ''
-      }
-    end
-
-    def otp_success
-      {
-        success: true,
-        otp: @user.otp,
-        message: "OTP sent successfully"
       }
     end
 

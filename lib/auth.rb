@@ -10,10 +10,9 @@ class Auth
       ALGORITHM)
   end
   def self.decode(token)
-    JWT.decode(token,
-      auth_secret,
-      true,
-      { algorithm: ALGORITHM }).first
+    JWT.decode(token,auth_secret,true, { algorithm: ALGORITHM }).try(:first)
+  rescue => e
+    false
   end
   def self.auth_secret
     ENV["AUTH_SECRET"]

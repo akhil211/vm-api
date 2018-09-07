@@ -5,14 +5,15 @@ class User < ApplicationRecord
   #associations
   belongs_to :role
   belongs_to :school
+  has_many   :spouses, class_name: :Student 
 
   #validations
   validates :role, presence: true
-  validates :school, presence: true
+  #validates :school, presence: true
   validates :contact_no, presence: true
   validates :first_name, presence: true
   validates :username, presence: true, allow_nil: true
-  validates :gender, presence: true, inclusion: { in: %w( m f ) }
+  validates :gender, presence: true, inclusion: { in: %w( male female ) }
 
   #enum
   enum status: { active: 1, inactive: 0 }
@@ -24,6 +25,10 @@ class User < ApplicationRecord
 
   def full_name
     [ self.try(:first_name), self.try(:last_name) ].join(' ').try(:titleize)
+  end
+
+  def spouse_full_name
+    self.spouse_name.try(:titleize)
   end
 
   def send_otp

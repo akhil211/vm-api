@@ -14,10 +14,10 @@ principal_role = Role.find_or_create_by!(name: 'principal')
 
 school = School.find_or_create_by!(name: 'test school name', city: 'ambala', state: 'haryana', contact_no: '9898989898', board: 'CBSE')
 
-teacher = User.find_or_create_by!(first_name: 'teacher', last_name: 'kumar', gender: 'm', status: 1, qualification: 'b.tech', role: teacher_role, school: school, contact_no: '5656789098')
+teacher = User.find_or_create_by!(first_name: 'teacher', last_name: 'kumar', gender: 'male', status: 1, qualification: 'b.tech', role: teacher_role, school: school, contact_no: '5656789098')
 
 standard = Standard.find_or_create_by!(title: '1', section: 'A', school: school, teacher_id: teacher.id)
 
-parent = User.find_or_create_by!(first_name: 'parent', last_name: 'kumar', gender: 'm', status: 1, qualification: 'mba', role: parent_role, school: school, contact_no: '5653589098', spouse_name: 'mother name')
+parent = User.find_or_create_by!(first_name: 'parent', last_name: 'kumar', gender: 'male', status: 1, qualification: 'mba', role: parent_role, school: school, contact_no: '5653589098', spouse_name: 'mother name')
 
-student = Student.find_or_create_by!(first_name: 'student', last_name: 'kumar', gender: 'm', role_no: '1', school: school, parent_id: parent.id, standard: standard, admission_no: '123', dob: Date.today)
+student = Student.find_or_create_by!(first_name: 'student', last_name: 'kumar', gender: 'male', role_no: '1', school: school, parent_id: parent.id, standard: standard, admission_no: '123', dob: Date.today)
