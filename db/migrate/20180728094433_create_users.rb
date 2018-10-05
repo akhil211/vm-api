@@ -17,7 +17,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :qualification
       t.string :gender
       t.string :spouse_name
-      t.integer :status, default: 1
+      t.integer :status, limit: 1, default: 1
       t.timestamps
     end
   end

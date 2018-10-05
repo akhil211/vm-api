@@ -3,7 +3,7 @@ class CreateStudents < ActiveRecord::Migration[5.1]
     create_table :students do |t|
       t.references :school
       t.references :standard
-      t.integer :parent_id, index: true
+      t.integer :guardian_id, index: true
       t.string  :first_name
       t.string  :last_name
       t.string  :role_no
@@ -12,6 +12,7 @@ class CreateStudents < ActiveRecord::Migration[5.1]
       t.string  :category
       t.date    :dob
       t.string  :gender
+      t.integer :status, limit: 1, default: 1
       t.timestamps
     end
   end

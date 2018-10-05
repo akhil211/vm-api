@@ -28,6 +28,7 @@ gem 'puma', '~> 3.7'
 gem 'jwt'
 gem 'active_model_serializers'
 gem 'figaro'
+gem 'paperclip'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

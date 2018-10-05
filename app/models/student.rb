@@ -2,13 +2,12 @@ class Student < ApplicationRecord
 
   #associations
   belongs_to :school
-  belongs_to :parent, class_name: :User, foreign_key: :parent_id
+  belongs_to :guardian, class_name: :User, foreign_key: :guardian_id
   belongs_to :standard
+  has_one    :student_previous_details
+  has_one    :image, as: :attachable, dependent: :destroy
 
   #validations
-  validates :school, presence: true
-  validates :parent, presence: true
-  validates :standard, presence: true
   validates :role_no, presence: true, uniqueness: {scope: [:standard_id]}
   validates :admission_no, presence: true, uniqueness: {scope: [:school_id]}
   validates :dob, presence: true

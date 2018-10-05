@@ -7,7 +7,7 @@ class CreateSchools < ActiveRecord::Migration[5.1]
       t.string :state
       t.string :board
       t.string :contact_no
-      t.integer :status, default: 1
+      t.integer :status, limit: 1, default: 1
       t.timestamps
     end
   end
