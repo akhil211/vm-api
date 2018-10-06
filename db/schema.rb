@@ -51,13 +51,12 @@ ActiveRecord::Schema.define(version: 20181005204758) do
 
   create_table "exam_results", force: :cascade do |t|
     t.bigint "exam_id"
-    t.bigint "student_id"
+    t.integer "student_id"
     t.decimal "marks_obtained"
     t.string "grade"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exam_id"], name: "index_exam_results_on_exam_id"
-    t.index ["student_id"], name: "index_exam_results_on_student_id"
   end
 
   create_table "exams", force: :cascade do |t|
@@ -125,13 +124,25 @@ ActiveRecord::Schema.define(version: 20181005204758) do
   end
 
   create_table "student_attendances", force: :cascade do |t|
-    t.bigint "student_id"
+    t.integer "student_id"
     t.integer "teacher_id"
     t.date "absent_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_student_attendances_on_student_id"
-    t.index ["teacher_id"], name: "index_student_attendances_on_teacher_id"
+  end
+
+  create_table "student_details", force: :cascade do |t|
+    t.bigint "standard_id"
+    t.integer "student_id"
+    t.string "role_no"
+    t.string "admission_no"
+    t.date "admission_date"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["standard_id"], name: "index_student_details_on_standard_id"
+    t.index ["student_id"], name: "index_student_details_on_student_id"
   end
 
   create_table "student_previous_details", force: :cascade do |t|
@@ -146,26 +157,6 @@ ActiveRecord::Schema.define(version: 20181005204758) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_student_previous_details_on_student_id"
-  end
-
-  create_table "students", force: :cascade do |t|
-    t.bigint "school_id"
-    t.bigint "standard_id"
-    t.integer "guardian_id"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "role_no"
-    t.string "admission_no"
-    t.date "admisssion_date"
-    t.string "category"
-    t.date "dob"
-    t.string "gender"
-    t.integer "status", limit: 2, default: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["guardian_id"], name: "index_students_on_guardian_id"
-    t.index ["school_id"], name: "index_students_on_school_id"
-    t.index ["standard_id"], name: "index_students_on_standard_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -183,6 +174,7 @@ ActiveRecord::Schema.define(version: 20181005204758) do
   create_table "users", force: :cascade do |t|
     t.bigint "role_id"
     t.bigint "school_id"
+    t.integer "guardian_id"
     t.string "first_name"
     t.string "last_name"
     t.string "email"
@@ -197,10 +189,13 @@ ActiveRecord::Schema.define(version: 20181005204758) do
     t.string "qualification"
     t.string "gender"
     t.string "spouse_name"
+    t.date "joining_date"
+    t.date "dob"
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "otp_send_at"
+    t.index ["guardian_id"], name: "index_users_on_guardian_id"
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["school_id"], name: "index_users_on_school_id"
   end

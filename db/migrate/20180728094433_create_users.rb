@@ -3,6 +3,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
     create_table :users do |t|
       t.references :role
       t.references :school
+      t.integer :guardian_id, index: true
       t.string :first_name
       t.string :last_name
       t.string :email
@@ -17,6 +18,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :qualification
       t.string :gender
       t.string :spouse_name
+      t.date    :joining_date
+      t.date    :dob
       t.integer :status, limit: 1, default: 1
       t.timestamps
     end

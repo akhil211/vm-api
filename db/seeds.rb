@@ -9,21 +9,24 @@ ActiveRecord::Base.transaction do
 
   master_role = Role.find_or_create_by!(name: 'master')
   admin_role = Role.find_or_create_by!(name: 'admin')
+  student_role = Role.find_or_create_by!(name: 'student')
   teacher_role = Role.find_or_create_by!(name: 'teacher')
   guardian_role = Role.find_or_create_by!(name: 'guardian')
   principal_role = Role.find_or_create_by!(name: 'principal')
 
   school = School.find_or_create_by!(name: 'test school name', city: 'ambala', state: 'haryana', contact_no: '9898989898', board: 'CBSE')
 
-  teacher = User.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: teacher_role, school: school, contact_no: '5656789098')
+  teacher = Teacher.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: teacher_role, school: school, contact_no: '5656789098', dob: 20.years.ago, alternate_contact_no: '5656789098', joining_date: 2.years.ago, home_address: 'sadar bazar')
 
-  admin = User.find_or_create_by!(first_name: 'admin', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: admin_role, school: school, contact_no: '5656789034')
+  admin = Admin.create(first_name: 'admin', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: admin_role, school: school, contact_no: '5656789034', username: 'admin',password: 'admin123')
 
   standard = Standard.find_or_create_by!(title: '1', section: 'A', school: school, teacher_id: teacher.id)
 
-  guardian = User.find_or_create_by!(first_name: 'parent', last_name: 'sharma', gender: 'male', status: 1, qualification: 'mba', role: guardian_role, contact_no: '5653589098', spouse_name: 'mother name')
+  guardian = Guardian.find_or_create_by!(first_name: 'parent', last_name: 'sharma', gender: 'male', status: 1, qualification: 'mba', role: guardian_role, contact_no: '5653589098', spouse_name: 'mother name', occupation: 'salaried')
 
-  student = Student.find_or_create_by!(first_name: 'student', last_name: 'sharma', gender: 'male', role_no: '1', school: school, guardian_id: guardian.id, standard: standard, admission_no: '123', dob: Date.today)
+  student = Student.find_or_create_by!(first_name: 'student', last_name: 'sharma', gender: 'male', school: school, guardian_id: guardian.id, dob: Date.today, role: student_role, contact_no: '2343456567', home_address: 'banur')
+
+  student_detail = StudentDetail.find_or_create_by!(student: student, admission_no: '123', role_no: '1', admission_date: 1.year.ago, standard: standard, category: 'general')
 
   subject1 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'Hindi')
   subject2 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'english')

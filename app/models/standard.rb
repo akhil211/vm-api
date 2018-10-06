@@ -5,8 +5,6 @@ class Standard < ApplicationRecord
   belongs_to :teacher, foreign_key: :teacher_id, class_name: :User
 
   #validations
-  validates :school, presence: true
-  validates :teacher, presence: true
   validates :title, presence: true
   validates :section, presence: true
 

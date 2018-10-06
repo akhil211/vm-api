@@ -1,21 +1,11 @@
 class User < ApplicationRecord
-  #TODO add school validation
-  #TODO work on password validation
-
-  #has_secure_password
 
   #associations
   belongs_to :role
-  belongs_to :school, optional: true
-  has_many   :wards, class_name: :Student
-  has_one    :image, as: :attachable, dependent: :destroy
 
   #validations
-  validates :role, presence: true
-  #validates :school, presence: true
   validates :contact_no, presence: true
   validates :first_name, presence: true
-  validates :username, presence: true, allow_nil: true
   validates :gender, presence: true, inclusion: { in: %w( male female ) }
 
   #enum

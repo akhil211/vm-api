@@ -1,7 +1,6 @@
 class School < ApplicationRecord
 
   #associations
-  has_many :students
   has_many :albums, dependent: :destroy
   has_many :users
   has_many :standards, dependent: :destroy
