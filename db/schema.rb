@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20181005204758) do
     t.decimal "maximum_marks"
     t.decimal "passing_marks"
     t.string "passing_grade"
+    t.datetime "date"
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -76,17 +77,11 @@ ActiveRecord::Schema.define(version: 20181005204758) do
   create_table "homeworks", force: :cascade do |t|
     t.bigint "subject_id"
     t.text "description"
-    t.datetime "date"
+    t.date "date"
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["subject_id"], name: "index_homeworks_on_subject_id"
-  end
-
-  create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "schools", force: :cascade do |t|
@@ -172,9 +167,9 @@ ActiveRecord::Schema.define(version: 20181005204758) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.bigint "role_id"
     t.bigint "school_id"
     t.integer "guardian_id"
+    t.integer "role"
     t.string "first_name"
     t.string "last_name"
     t.string "email"
@@ -195,8 +190,6 @@ ActiveRecord::Schema.define(version: 20181005204758) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "otp_send_at"
-    t.index ["guardian_id"], name: "index_users_on_guardian_id"
-    t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["school_id"], name: "index_users_on_school_id"
   end
 

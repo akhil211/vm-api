@@ -12,4 +12,13 @@ module Responder
     render json: { success: false, data: data, message: message }, status: 200
   end
 
+  def render_array(array, serializer, message=nil)
+    data = obj_array(array, serializer)
+    render_success(data, message)
+  end
+
+  def obj_array(array, serializer)
+    ActiveModel::ArraySerializer.new(array, each_serializer: serializer.constantize)
+  end
+
 end

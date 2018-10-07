@@ -4,7 +4,7 @@ class School < ApplicationRecord
   has_many :albums, dependent: :destroy
   has_many :users
   has_many :standards, dependent: :destroy
-  has_one  :image, as: :attachable, dependent: :destroy
+  has_one  :logo, class_name: :Attachment, as: :attachable, dependent: :destroy
 
   #validations
   validates :name, presence: true
@@ -18,6 +18,10 @@ class School < ApplicationRecord
 
   #callbacks
   before_save :downcase_values
+
+  def logo_url
+    logo ? logo.url : 'default logo url'
+  end
 
   private
 

@@ -3,7 +3,7 @@ class StaffAttendance < ApplicationRecord
 
   #associations
   belongs_to :user
-  belongs_to :admin, foreign_key: :admin_id, class_name: :User
+  belongs_to :admin
 
   #validations
   validates :absent_on, presence: true

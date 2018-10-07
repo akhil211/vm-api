@@ -2,13 +2,20 @@ class Subject < ApplicationRecord
 
   #associations
   belongs_to :standard
-  belongs_to :teacher, foreign_key: :teacher_id, class_name: :User
+  belongs_to :teacher
+  has_many   :homeworks
+  has_many   :exams
 
   #associations
   validates :title, presence: true
 
   #callbacks
   before_save :downcase_values
+
+  def name
+    title.titleize
+  end
+
 
   private
 

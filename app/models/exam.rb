@@ -3,6 +3,7 @@ class Exam < ApplicationRecord
   #associations
   belongs_to :exam_group
   belongs_to :subject
+  has_many  :exam_results
 
   #validations
   validates :maximum_marks, presence: true

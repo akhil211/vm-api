@@ -2,7 +2,9 @@ class Standard < ApplicationRecord
 
   #associations
   belongs_to :school
-  belongs_to :teacher, foreign_key: :teacher_id, class_name: :User
+  belongs_to :teacher
+  has_many   :subjects
+  has_many   :exam_groups
 
   #validations
   validates :title, presence: true
@@ -10,6 +12,14 @@ class Standard < ApplicationRecord
 
   #callbacks
   before_save :downcase_values
+
+  def name
+    [title, section_name].join('')
+  end
+
+  def section_name
+    section.present? ? "(#{section.titleize})" : nil
+  end
 
   private
 

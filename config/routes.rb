@@ -13,6 +13,16 @@ Rails.application.routes.draw do
         get :school_profile, on: :collection
       end
 
+      resources :students do
+        get :attendances, on: :member
+        get :homework_dates, on: :member
+        get :homework_details, on: :member
+      end
+
+      resources :exams, only: [:index] do
+        get :list, on: :member
+      end
+
     end
   end
 end

@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def school_profile
     if @school.present?
-      render_success({school: SchoolSerializer.new(@school)})
+      render_success(SchoolSerializer.new(@school))
     else
       render_error('Record not found')
     end
@@ -16,10 +16,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   private
 
   def set_school
-    @school = @current_user.try(:school)
-    if @school.blank? && params[:student_id].present?
-      @school = @current_user.spouses.where(student_id: params[:student_id]).try(:first)
-    end
+    @school = Student.find_by(id: params[:student_id]).school if params[:student_id].present?
+    @school = @current_user.try(:school) unless @school.present?
   end
 
 end

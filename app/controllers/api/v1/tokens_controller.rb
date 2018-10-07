@@ -1,10 +1,9 @@
 class Api::V1::TokensController < Api::V1::BaseController
 
   skip_before_action :authenticate
-  before_action :find_by_contact, only: [:request_otp, :mobile_authentication]
+  before_action :set_user, :set_class_object
 
   def create
-    @user = User.find_by(username: auth_params[:username])
     if @user.present? && @user.authenticate(auth_params[:password])
       render_success(login_data, 'Logged In Successfully')
     else
@@ -32,8 +31,15 @@ class Api::V1::TokensController < Api::V1::BaseController
       params.permit(:username, :password, :otp, :mobile_no)
     end
 
-    def find_by_contact
-      @user = User.find_by(contact_no: auth_params[:mobile_no])
+    def set_class_object
+      @obj_class = @user.role.titleize.constantize
+      @user = @obj_class.find_by(username: auth_params[:username])
+      @user = @obj_class.find_by(contact_no: auth_params[:mobile_no]) if @user.blank?
+    end
+
+    def set_user
+      @user = ::User.find_by(username: auth_params[:username]) unless auth_params[:username].blank?
+      @user = ::User.find_by(contact_no: auth_params[:mobile_no]) unless @user.present? && auth_params[:mobile_no].blank?
       render_error(invalid_contact_msg) and return unless @user.present?
     end
 
@@ -49,11 +55,11 @@ class Api::V1::TokensController < Api::V1::BaseController
       #TODO add school logo
       {
         token: jwt_token,
-        user_type: @user.role.name,
+        user_type: @user.role,
         id: @user.id,
         name: @user.full_name,
         school_name: @user.school.name.titleize,
-        school_logo: ''
+        school_logo: @user.school.logo_url
       }
     end
 

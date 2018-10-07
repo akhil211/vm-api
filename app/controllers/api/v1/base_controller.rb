@@ -9,8 +9,12 @@ class Api::V1::BaseController < ApplicationController
 
   def current_user
     if auth_present? && token_valid?
-      user = User.find(auth["user"])
-      @current_user ||= user if user
+      user = User.find_by(id: auth['user'])
+      if user
+        obj_class = user.role.titleize.constantize
+        user = obj_class.find_by(id: auth['user'])
+        @current_user ||= user
+      end
     end
   end
 

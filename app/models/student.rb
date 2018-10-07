@@ -1,16 +1,26 @@
 class Student < User
 
+  default_scope { :student }
+
   #associations
   belongs_to :school
-  belongs_to :guardian, class_name: :User, foreign_key: :guardian_id
-  has_one    :previous_detail, class_name: :StudentPreviousDetail, foreign_key: :student_id
-  has_one    :detail, class_name: :StudentDetail, foreign_key: :student_id
-  has_many   :attendances, class_name: :StudentAttendance, foreign_key: :student_id
-  has_many   :exam_results, class_name: :ExamResult, foreign_key: :student_id
+  belongs_to :guardian
+  has_one    :previous_detail, class_name: :StudentPreviousDetail
+  has_one    :detail, class_name: :StudentDetail
+  has_many   :attendances, class_name: :StudentAttendance
+  has_many   :exam_results
   has_one    :image, as: :attachable, dependent: :destroy
 
   #validations
   validates :dob, presence: true
   validates :home_address, presence: true
+
+  def standard
+    detail.standard
+  end
+
+  def homeworks
+    standard.subjects.inject({}){|homeworks, subject| subject.homeworks }
+  end
 
 end

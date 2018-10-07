@@ -1,5 +1,7 @@
 class Teacher < User
 
+  default_scope { :teacher }
+
   #associations
   belongs_to :school
   has_one    :image, as: :attachable, dependent: :destroy

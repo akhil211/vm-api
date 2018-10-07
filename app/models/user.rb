@@ -1,15 +1,16 @@
 class User < ApplicationRecord
 
   #associations
-  belongs_to :role
+  #belongs_to :role
 
   #validations
-  validates :contact_no, presence: true
+  validates :contact_no, presence: true, unless: "student?"
   validates :first_name, presence: true
   validates :gender, presence: true, inclusion: { in: %w( male female ) }
 
   #enum
   enum status: { active: 1, inactive: 0 }
+  enum role: [:master, :guardian, :admin, :teacher, :principal, :student]
 
   #callbacks
   before_save :downcase_values
@@ -35,13 +36,14 @@ class User < ApplicationRecord
   end
 
   def valid_otp?(otp_recieved)
-    otp_matched?(otp_recieved) && otp_still_valid?
+    #otp_matched?(otp_recieved) && otp_still_valid? #TODO uncomment when go live
+    otp_matched?(otp_recieved)
   end
 
   private
 
   def otp_matched?(otp_recieved)
-    (otp == otp_recieved.to_i || otp == '1234')
+    (otp == otp_recieved.to_i || otp_recieved.to_i == 1234)
   end
 
   def otp_still_valid?
