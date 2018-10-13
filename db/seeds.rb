@@ -14,11 +14,18 @@ ActiveRecord::Base.transaction do
   # guardian_role = Role.find_or_create_by!(name: 'guardian')
   # principal_role = Role.find_or_create_by!(name: 'principal')
 
-  school = School.find_or_create_by!(name: 'test school name', city: 'ambala', state: 'haryana', contact_no: '9898989898', board: 'CBSE')
+  school = School.find_or_create_by!(name: 'test school name', landline_no_1: '9898989898', board: 'CBSE', landline_no_2: '6567878909', fax: '3456678', email_id: 'first@school.com', website: 'https://www.google.co.in')
 
-  teacher = Teacher.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: 3, school: school, contact_no: '5656789098', dob: 20.years.ago, alternate_contact_no: '5656789098', joining_date: 2.years.ago, home_address: 'sadar bazar')
+  school.build_address(address_line_1: '#70', address_line_2: 'sadar', city: 'ambala', state: 'haryana', pincode: '123456').save!
+
+  teacher = Teacher.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: 3, school: school, contact_no: '5656789098', dob: 20.years.ago, alternate_contact_no: '5656789098', joining_date: 2.years.ago)
+
+  teacher.build_permanent_address(address_line_1: '#70', address_line_2: 'sadar', city: 'ambala', state: 'haryana', pincode: '123456').save!
+  teacher.build_correspondence_address(address_line_1: '#72', address_line_2: 'sadar', city: 'kaithal', state: 'haryana', pincode: '656789').save!
 
   admin = Admin.create(first_name: 'admin', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: 2, school: school, contact_no: '5656789034', username: 'admin',password: 'admin123')
+
+  admin.build_permanent_address(address_line_1: '#73', address_line_2: 'rai wala', city: 'ynr', state: 'haryana', pincode: '454345').save!
 
   standard = Standard.find_or_create_by!(title: '1', section: 'A', school: school, teacher_id: teacher.id)
 
@@ -27,6 +34,9 @@ ActiveRecord::Base.transaction do
   student = Student.find_or_create_by!(first_name: 'student', last_name: 'sharma', gender: 'male', school: school, guardian_id: guardian.id, dob: Date.today, role: 5, contact_no: '2343456567', home_address: 'banur')
 
   student_detail = StudentDetail.find_or_create_by!(student: student, admission_no: '123', role_no: '1', admission_date: 1.year.ago, standard: standard, category: 'general')
+
+  student.build_permanent_address(address_line_1: '#75', address_line_2: 'mahesh nagar', city: 'kkr', state: 'haryana', pincode: '987653').save!
+  student.build_correspondence_address(address_line_1: '#76', address_line_2: 'rohini', city: 'gurgaon', state: 'haryana', pincode: '234321').save!
 
   subject1 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'Hindi')
   subject2 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'english')
@@ -55,5 +65,16 @@ ActiveRecord::Base.transaction do
   ExamResult.find_or_create_by!(exam: exam1, student: student, marks_obtained: '40', grade: 'c')
   ExamResult.find_or_create_by!(exam: exam2, student: student, marks_obtained: '50', grade: 'b')
   ExamResult.find_or_create_by!(exam: exam3, student: student, marks_obtained: '70', grade: 'a')
+
+  Event.find_or_create_by!(school: school, admin: admin, title: 'Mahashivratri', description: 'Mahashivratri celebrations', starts_at: 10.days.ago, ends_at: 9.days.ago)
+  Event.find_or_create_by!(school: school, admin: admin, title: 'Diwali', description: 'Diwali celebrations', starts_at: 10.days.from_now, ends_at: 11.days.from_now)
+
+  BulletinBoard.find_or_create_by!(school: school, admin: admin, title: 'PTM', body: 'PTM on 20th', link: 'https://stackoverflow.com')
+  BulletinBoard.find_or_create_by!(school: school, admin: admin, title: 'Exams', body: 'Unit tests from 27th', link: 'https://stackoverflow.com')
+
+  Alert.find_or_create_by!(user_id: teacher.id, message: 'Diwali celebrations on 20th')
+  Alert.find_or_create_by!(user_id: teacher.id, message: 'School will remain closed on 26th')
+  Alert.find_or_create_by!(user_id: guardian.id, message: 'School will remain closed on 26th')
+  Alert.find_or_create_by!(user_id: guardian.id, message: 'PTM on 27th')
 
 end

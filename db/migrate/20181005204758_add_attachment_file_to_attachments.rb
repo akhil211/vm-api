@@ -5,7 +5,7 @@ class AddAttachmentFileToAttachments < ActiveRecord::Migration[5.1]
       t.string     :title, limit: 200
       t.belongs_to :attachable, polymorphic: true
       t.integer    :status, limit: 1, default: 1
-      t.integer    :type, default: 0, limit: 1
+      t.integer    :file_type, default: 0, limit: 1
       t.timestamps
     end
   end

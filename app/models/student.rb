@@ -13,8 +13,7 @@ class Student < User
 
   #validations
   validates :dob, presence: true
-  validates :home_address, presence: true
-
+  
   def standard
     detail.standard
   end

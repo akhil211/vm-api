@@ -3,16 +3,16 @@ class School < ApplicationRecord
   #associations
   has_many :albums, dependent: :destroy
   has_many :users
+  has_many :events
+  has_many :news, class_name: :BulletinBoard, dependent: :destroy
   has_many :standards, dependent: :destroy
-  has_one  :logo, -> { where(type: 1).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
-  has_one  :image, -> { where(type: 0).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
-  has_one  :address, as: :attachable, dependent: :destroy
+  has_one  :logo, -> { where(file_type: 1).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
+  has_one  :image, -> { where(file_type: 0).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
+  has_one  :address, as: :addressable, dependent: :destroy
 
   #validations
   validates :name, presence: true
-  validates :city, presence: true
-  validates :state, presence: true
-  validates :contact_no, presence: true
+  validates :landline_no_1, presence: true
   validates :board, presence: true
 
   #enum
@@ -30,8 +30,6 @@ class School < ApplicationRecord
   def downcase_values
     #TODO code optimise
     self.name = name.downcase
-    self.city = city.downcase
-    self.state = state.downcase
     self.board = board.downcase
   end
 

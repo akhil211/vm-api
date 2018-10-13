@@ -2,8 +2,9 @@ class User < ApplicationRecord
 
   #associations
   #belongs_to :role
-  has_one  :home_address, -> { where(type: 0).try(:first) }, class_name: :Address, as: :addressable, dependent: :destroy
-  has_one  :other_address, -> { where(type: 1).try(:first) }, class_name: :Address, as: :addressable, dependent: :destroy
+  has_one  :permanent_address, -> { where(address_type: 0).try(:first) }, class_name: :Address, as: :addressable, dependent: :destroy
+  has_one  :correspondence_address, -> { where(address_type: 1).try(:first) }, class_name: :Address, as: :addressable, dependent: :destroy
+  has_many :alerts
 
   #validations
   validates :contact_no, presence: true, unless: "student?"

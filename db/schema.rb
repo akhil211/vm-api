@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181013094008) do
+ActiveRecord::Schema.define(version: 20181013135054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20181013094008) do
     t.string "pincode", limit: 10
     t.string "city", limit: 100
     t.string "state", limit: 100
-    t.integer "type", limit: 2, default: 0
+    t.integer "address_type", limit: 2, default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id"
@@ -39,6 +39,15 @@ ActiveRecord::Schema.define(version: 20181013094008) do
     t.index ["school_id"], name: "index_albums_on_school_id"
   end
 
+  create_table "alerts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "message"
+    t.boolean "is_read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_alerts_on_user_id"
+  end
+
   create_table "attachments", force: :cascade do |t|
     t.string "file_file_name"
     t.string "file_content_type"
@@ -48,7 +57,7 @@ ActiveRecord::Schema.define(version: 20181013094008) do
     t.string "attachable_type"
     t.bigint "attachable_id"
     t.integer "status", limit: 2, default: 1
-    t.integer "type", limit: 2, default: 0
+    t.integer "file_type", limit: 2, default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
@@ -135,7 +144,7 @@ ActiveRecord::Schema.define(version: 20181013094008) do
     t.string "landline_no_2", limit: 20
     t.string "fax", limit: 100
     t.string "website", limit: 200
-    t.string "emai_id", limit: 100
+    t.string "email_id", limit: 100
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

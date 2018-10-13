@@ -23,6 +23,10 @@ Rails.application.routes.draw do
         get :list, on: :member
       end
 
+      resources :events
+      resources :alerts, only: [:index, :show]
+      resources :news
+      
     end
   end
 end
