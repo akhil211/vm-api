@@ -3,7 +3,6 @@ class Api::V1::ExamsController < Api::V1::BaseController
   before_action :set_student, only: [:index]
   before_action :set_exam_group, only: [:list]
 
-
   def index
     exam_groups = obj_array(@student.standard.exam_groups, 'ExamGroupSerializer')
     render_success({exam_groups: exam_groups})
@@ -13,6 +12,8 @@ class Api::V1::ExamsController < Api::V1::BaseController
     exams = obj_array(@exam_group.exams, 'ExamSerializer')
     render_success({exams: exams})
   end
+
+  private
 
   def set_student
     @student = Student.find_by(id: params[:student_id])

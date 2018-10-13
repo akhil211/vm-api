@@ -2,8 +2,9 @@ require 'jwt'
 class Auth
   ALGORITHM = 'HS256'
   def self.issue(data)
-    exp = Time.now.to_i + 400 * 3600 #90 hours
-    payload = { data: data, exp: exp }
+    exp = Time.now.to_i + 4000 * 3600 #90 hours
+    #payload = { data: data, exp: exp }
+    payload = { data: data }
     JWT.encode(
       payload,
       auth_secret,

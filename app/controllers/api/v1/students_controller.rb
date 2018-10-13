@@ -1,9 +1,14 @@
 class Api::V1::StudentsController < Api::V1::BaseController
 
-  before_action :set_student
+  before_action :set_student, only: [:attendances, :homework_dates,
+    :homework_details, :profile]
+
+  def profile
+    render_success(Student::ProfileSerializer.new(@student))
+  end
 
   def attendances
-    attendances = obj_array(@student.attendances, 'Student::AttendanceSerializer')
+    attendances = obj_array(@student.attendances, 'AttendanceSerializer')
     data = {id: @student.id, name: @student.full_name, std: @student.standard.name, absent_on: attendances }
     render_success(data)
   end

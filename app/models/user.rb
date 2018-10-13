@@ -2,12 +2,11 @@ class User < ApplicationRecord
 
   #associations
   #belongs_to :role
-  has_one  :permanent_address, -> { where(address_type: 0).try(:first) }, class_name: :Address, as: :addressable, dependent: :destroy
-  has_one  :correspondence_address, -> { where(address_type: 1).try(:first) }, class_name: :Address, as: :addressable, dependent: :destroy
+  has_many  :addresses, as: :addressable, dependent: :destroy
   has_many :alerts
 
   #validations
-  validates :contact_no, presence: true, unless: "student?"
+  validates :contact_no, presence: true, unless: -> {student?}
   validates :first_name, presence: true
   validates :gender, presence: true, inclusion: { in: %w( male female ) }
 
@@ -19,6 +18,14 @@ class User < ApplicationRecord
   before_save :downcase_values
 
   #methods
+
+  def permanent_address
+    addresses.permanent.try(:first)
+  end
+
+  def correspondence_address
+    addresses.correspondence.try(:first)
+  end
 
   def full_name
     [ self.try(:first_name), self.try(:last_name) ].join(' ').try(:titleize)

@@ -14,11 +14,15 @@ class Standard < ApplicationRecord
   before_save :downcase_values
 
   def name
-    [title, section_name].join('')
+    [title, section_display].join('')
+  end
+
+  def section_display
+    section.present? ? "(#{section.titleize})" : nil
   end
 
   def section_name
-    section.present? ? "(#{section.titleize})" : nil
+    section.titleize
   end
 
   private

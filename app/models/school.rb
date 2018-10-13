@@ -6,8 +6,7 @@ class School < ApplicationRecord
   has_many :events
   has_many :news, class_name: :BulletinBoard, dependent: :destroy
   has_many :standards, dependent: :destroy
-  has_one  :logo, -> { where(file_type: 1).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
-  has_one  :image, -> { where(file_type: 0).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
+  has_many  :attachments, as: :attachable, dependent: :destroy
   has_one  :address, as: :addressable, dependent: :destroy
 
   #validations
@@ -22,7 +21,19 @@ class School < ApplicationRecord
   before_save :downcase_values
 
   def logo_url
-    logo ? logo.url : 'default logo url'
+    logo.present? ? logo.url : 'default logo url'
+  end
+
+  def image_url
+    image.present? ? image.url : 'default image url'
+  end
+
+  def logo
+    attachments.logo.try(:first)
+  end
+
+  def image
+    attachments.image.try(:first)
   end
 
   private

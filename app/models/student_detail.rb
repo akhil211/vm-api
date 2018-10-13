@@ -5,7 +5,7 @@ class StudentDetail < ApplicationRecord
   belongs_to :standard
 
   #validations
-  validates :role_no, presence: true, uniqueness: {scope: [:standard_id]}
+  validates :roll_no, presence: true, uniqueness: {scope: [:standard_id]}
   validates :admission_no, presence: true
   validates :admission_date, presence: true
 

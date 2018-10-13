@@ -22,6 +22,11 @@ class Api::V1::BaseController < ApplicationController
     render_unauthorized unless logged_in?
   end
 
+  def set_school
+    @school = School.find_by(id: params[:school_id])
+    render_error('School not found') and return unless @school.present?
+  end
+
   private
 
    def token

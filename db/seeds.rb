@@ -20,23 +20,23 @@ ActiveRecord::Base.transaction do
 
   teacher = Teacher.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: 3, school: school, contact_no: '5656789098', dob: 20.years.ago, alternate_contact_no: '5656789098', joining_date: 2.years.ago)
 
-  teacher.build_permanent_address(address_line_1: '#70', address_line_2: 'sadar', city: 'ambala', state: 'haryana', pincode: '123456').save!
-  teacher.build_correspondence_address(address_line_1: '#72', address_line_2: 'sadar', city: 'kaithal', state: 'haryana', pincode: '656789').save!
+  Address.find_or_create_by!(addressable: teacher, address_line_1: '#70', address_line_2: 'sadar', city: 'ambala', state: 'haryana', pincode: '123456', address_type: 0)
+  Address.find_or_create_by!(addressable: teacher, address_line_1: '#72', address_line_2: 'sadar', city: 'kaithal', state: 'haryana', pincode: '656789', address_type: 1)
 
   admin = Admin.create(first_name: 'admin', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: 2, school: school, contact_no: '5656789034', username: 'admin',password: 'admin123')
 
-  admin.build_permanent_address(address_line_1: '#73', address_line_2: 'rai wala', city: 'ynr', state: 'haryana', pincode: '454345').save!
+  Address.find_or_create_by!(addressable: admin, address_line_1: '#73', address_line_2: 'rai wala', city: 'ynr', state: 'haryana', pincode: '454345', address_type: 0)
 
   standard = Standard.find_or_create_by!(title: '1', section: 'A', school: school, teacher_id: teacher.id)
 
   guardian = Guardian.find_or_create_by!(first_name: 'parent', last_name: 'sharma', gender: 'male', status: 1, qualification: 'mba', role: 1, contact_no: '5653589098', spouse_name: 'mother name', occupation: 'salaried')
 
-  student = Student.find_or_create_by!(first_name: 'student', last_name: 'sharma', gender: 'male', school: school, guardian_id: guardian.id, dob: Date.today, role: 5, contact_no: '2343456567', home_address: 'banur')
+  student = Student.find_or_create_by!(first_name: 'student', last_name: 'sharma', gender: 'male', school: school, guardian_id: guardian.id, dob: Date.today, role: 5, contact_no: '2343456567')
 
-  student_detail = StudentDetail.find_or_create_by!(student: student, admission_no: '123', role_no: '1', admission_date: 1.year.ago, standard: standard, category: 'general')
+  student_detail = StudentDetail.find_or_create_by!(student: student, admission_no: '123', roll_no: '1', admission_date: 1.year.ago, standard: standard, category: 'general')
 
-  student.build_permanent_address(address_line_1: '#75', address_line_2: 'mahesh nagar', city: 'kkr', state: 'haryana', pincode: '987653').save!
-  student.build_correspondence_address(address_line_1: '#76', address_line_2: 'rohini', city: 'gurgaon', state: 'haryana', pincode: '234321').save!
+  Address.find_or_create_by!(addressable: student, address_line_1: '#75', address_line_2: 'mahesh nagar', city: 'kkr', state: 'haryana', pincode: '987653', address_type: 0)
+  Address.find_or_create_by!(addressable: student, address_line_1: '#76', address_line_2: 'rohini', city: 'gurgaon', state: 'haryana', pincode: '234321', address_type: 0)
 
   subject1 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'Hindi')
   subject2 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'english')
@@ -52,8 +52,8 @@ ActiveRecord::Base.transaction do
   StudentAttendance.find_or_create_by!(student: student, teacher: teacher, absent_on: Date.today)
   StudentAttendance.find_or_create_by!(student: student, teacher: teacher, absent_on: 4.days.ago)
 
-  StaffAttendance.find_or_create_by!(user: teacher, admin: admin, absent_on: Date.today)
-  StaffAttendance.find_or_create_by!(user: teacher, admin: admin, absent_on: 9.days.ago)
+  StaffAttendance.find_or_create_by!(teacher: teacher, admin: admin, absent_on: Date.today)
+  StaffAttendance.find_or_create_by!(teacher: teacher, admin: admin, absent_on: 9.days.ago)
 
   StudentPreviousDetail.find_or_create_by!(student: student, school: 'SBBM', year: '2018', board: 'haryana board of education', standard: '8th', reason_of_leaving: "father's job transfer")
 
@@ -76,5 +76,8 @@ ActiveRecord::Base.transaction do
   Alert.find_or_create_by!(user_id: teacher.id, message: 'School will remain closed on 26th')
   Alert.find_or_create_by!(user_id: guardian.id, message: 'School will remain closed on 26th')
   Alert.find_or_create_by!(user_id: guardian.id, message: 'PTM on 27th')
+
+  Album.find_or_create_by!(school: school, name: 'Independece day celebrations')
+  Album.find_or_create_by!(school: school, name: 'Annual fuction celebrations')
 
 end

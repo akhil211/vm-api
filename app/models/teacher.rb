@@ -5,9 +5,9 @@ class Teacher < User
   #associations
   belongs_to :school
   has_one    :image, class_name: :Attachment, as: :attachable, dependent: :destroy
-  has_many   :student_attendances, class_name: :StudentAttendance, foreign_key: :teacher_id
-  has_many   :standards, class_name: :Standard, foreign_key: :teacher_id
-  has_many   :subjects, class_name: :Standard, foreign_key: :teacher_id
+  has_many   :student_attendances, class_name: :StudentAttendance
+  has_many   :standards, class_name: :Standard
+  has_many   :subjects, class_name: :Standard
   has_many   :attendances, class_name: :StaffAttendance
 
   #validations

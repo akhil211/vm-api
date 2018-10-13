@@ -1,10 +1,38 @@
 class SchoolSerializer < ActiveModel::Serializer
-  attributes :id, :name, :address, :city, :state, :board, :logo
+  attributes :id, :name, :address_line_1, :address_line_2, :state, :city,
+  :pincode, :landmark, :board, :landline_no_1, :landline_no_2, :fax, :website,
+  :logo, :email_id, :image
 
-  # [:name, :address, :city, :state, :board].each do |attr|
-  #   define_method attr do
-  #     object.send(attr).try(:titleize)
-  #   end
-  # end
+  def address_line_1
+    object.address.address_line_1
+  end
+
+  def address_line_2
+    object.address.address_line_1
+  end
+
+  def landmark
+    object.address.landmark
+  end
+
+  def city
+    object.address.city
+  end
+
+  def state
+    object.address.state
+  end
+
+  def pincode
+    object.address.pincode
+  end
+
+  def logo
+    object.logo_url
+  end
+
+  def image
+    object.image_url
+  end
 
 end

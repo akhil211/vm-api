@@ -2,7 +2,7 @@ class StaffAttendance < ApplicationRecord
   #TODO add today as default absent date before validation
 
   #associations
-  belongs_to :user
+  belongs_to :teacher
   belongs_to :admin
 
   #validations

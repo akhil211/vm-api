@@ -151,13 +151,13 @@ ActiveRecord::Schema.define(version: 20181013135054) do
   end
 
   create_table "staff_attendances", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "teacher_id"
     t.integer "admin_id"
     t.date "absent_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_id"], name: "index_staff_attendances_on_admin_id"
-    t.index ["user_id"], name: "index_staff_attendances_on_user_id"
+    t.index ["teacher_id"], name: "index_staff_attendances_on_teacher_id"
   end
 
   create_table "standards", force: :cascade do |t|
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 20181013135054) do
   create_table "student_details", force: :cascade do |t|
     t.bigint "standard_id"
     t.integer "student_id"
-    t.string "role_no", limit: 50
+    t.string "roll_no", limit: 50
     t.string "admission_no", limit: 100
     t.date "admission_date"
     t.string "category", limit: 50
