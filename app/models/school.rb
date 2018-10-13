@@ -4,7 +4,9 @@ class School < ApplicationRecord
   has_many :albums, dependent: :destroy
   has_many :users
   has_many :standards, dependent: :destroy
-  has_one  :logo, class_name: :Attachment, as: :attachable, dependent: :destroy
+  has_one  :logo, -> { where(type: 1).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
+  has_one  :image, -> { where(type: 0).try(:first) }, class_name: :Attachment, as: :attachable, dependent: :destroy
+  has_one  :address, as: :attachable, dependent: :destroy
 
   #validations
   validates :name, presence: true
