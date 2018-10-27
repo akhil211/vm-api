@@ -2,10 +2,10 @@ class StudentDetail < ApplicationRecord
 
   #associations
   belongs_to :student
-  belongs_to :standard
+  belongs_to :section
 
   #validations
-  validates :roll_no, presence: true, uniqueness: {scope: [:standard_id]}
+  validates :roll_no, presence: true, uniqueness: {scope: [:section_id]}
   validates :admission_no, presence: true
   validates :admission_date, presence: true
 

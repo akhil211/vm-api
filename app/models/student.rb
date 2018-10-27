@@ -1,6 +1,6 @@
 class Student < User
 
-  default_scope { :student }
+  default_scope { where(role: :student) }
 
   #associations
   belongs_to :school
@@ -15,11 +15,15 @@ class Student < User
   validates :dob, presence: true
 
   def standard
-    detail.standard
+    detail.section.standard
+  end
+
+  def section
+    detail.section
   end
 
   def homeworks
-    standard.subjects.inject({}){|homeworks, subject| subject.homeworks }
+    section.subjects.inject({}){|homeworks, subject| subject.homeworks }
   end
 
   def roll_no

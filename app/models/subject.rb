@@ -1,7 +1,7 @@
 class Subject < ApplicationRecord
 
   #associations
-  belongs_to :standard
+  belongs_to :section
   belongs_to :teacher
   has_many   :homeworks
   has_many   :exams
@@ -16,6 +16,13 @@ class Subject < ApplicationRecord
     title.titleize
   end
 
+  def homework_alloted?
+    todays_homework.present? ? 'yes' : 'no'
+  end
+
+  def todays_homework
+    homeworks.find_by(date: Date.today)
+  end
 
   private
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181013135054) do
+ActiveRecord::Schema.define(version: 20181027195454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,14 +92,14 @@ ActiveRecord::Schema.define(version: 20181013135054) do
   end
 
   create_table "exam_groups", force: :cascade do |t|
-    t.bigint "standard_id"
+    t.bigint "section_id"
     t.string "title", limit: 100
     t.string "color_code", limit: 10
     t.integer "display_type", limit: 2, default: 0
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["standard_id"], name: "index_exam_groups_on_standard_id"
+    t.index ["section_id"], name: "index_exam_groups_on_section_id"
   end
 
   create_table "exam_results", force: :cascade do |t|
@@ -150,6 +150,17 @@ ActiveRecord::Schema.define(version: 20181013135054) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sections", force: :cascade do |t|
+    t.bigint "standard_id"
+    t.integer "teacher_id"
+    t.string "name", limit: 20
+    t.integer "status", limit: 2, default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["standard_id"], name: "index_sections_on_standard_id"
+    t.index ["teacher_id"], name: "index_sections_on_teacher_id"
+  end
+
   create_table "staff_attendances", force: :cascade do |t|
     t.bigint "teacher_id"
     t.integer "admin_id"
@@ -162,14 +173,11 @@ ActiveRecord::Schema.define(version: 20181013135054) do
 
   create_table "standards", force: :cascade do |t|
     t.bigint "school_id"
-    t.integer "teacher_id"
     t.string "title", limit: 100
-    t.string "section", limit: 20
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["school_id"], name: "index_standards_on_school_id"
-    t.index ["teacher_id"], name: "index_standards_on_teacher_id"
   end
 
   create_table "student_attendances", force: :cascade do |t|
@@ -182,7 +190,7 @@ ActiveRecord::Schema.define(version: 20181013135054) do
   end
 
   create_table "student_details", force: :cascade do |t|
-    t.bigint "standard_id"
+    t.bigint "section_id"
     t.integer "student_id"
     t.string "roll_no", limit: 50
     t.string "admission_no", limit: 100
@@ -190,7 +198,7 @@ ActiveRecord::Schema.define(version: 20181013135054) do
     t.string "category", limit: 50
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["standard_id"], name: "index_student_details_on_standard_id"
+    t.index ["section_id"], name: "index_student_details_on_section_id"
     t.index ["student_id"], name: "index_student_details_on_student_id"
   end
 
@@ -209,14 +217,14 @@ ActiveRecord::Schema.define(version: 20181013135054) do
   end
 
   create_table "subjects", force: :cascade do |t|
-    t.bigint "standard_id"
+    t.bigint "section_id"
     t.integer "teacher_id"
     t.string "title", limit: 100
     t.string "color_code", limit: 10
     t.integer "status", limit: 2, default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["standard_id"], name: "index_subjects_on_standard_id"
+    t.index ["section_id"], name: "index_subjects_on_section_id"
     t.index ["teacher_id"], name: "index_subjects_on_teacher_id"
   end
 
@@ -242,6 +250,7 @@ ActiveRecord::Schema.define(version: 20181013135054) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "otp_send_at"
+    t.datetime "last_login"
     t.index ["school_id"], name: "index_users_on_school_id"
   end
 

@@ -2,7 +2,7 @@ class Admin < User
 
   has_secure_password
 
-  default_scope { :admin }
+  default_scope { where(role: :admin) }
 
   #associations
   belongs_to :school

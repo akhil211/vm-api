@@ -18,7 +18,8 @@ ActiveRecord::Base.transaction do
 
   school.build_address(address_line_1: '#70', address_line_2: 'sadar', city: 'ambala', state: 'haryana', pincode: '123456').save!
 
-  teacher = Teacher.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech', role: 3, school: school, contact_no: '5656789098', dob: 20.years.ago, alternate_contact_no: '5656789098', joining_date: 2.years.ago)
+  teacher = Teacher.find_or_create_by!(first_name: 'teacher', last_name: 'sharma', gender: 'male', status: 1, qualification: 'b.tech',  school: school, contact_no: '5656789098', dob: 20.years.ago, alternate_contact_no: '5656789098', joining_date: 2.years.ago)
+  principal = Principal.find_or_create_by!(first_name: 'principal', last_name: 'sharma', gender: 'male', status: 1, qualification: 'm.tech', school: school, contact_no: '5656789054', dob: 30.years.ago, alternate_contact_no: '5654389098', joining_date: 5.years.ago)
 
   Address.find_or_create_by!(addressable: teacher, address_line_1: '#70', address_line_2: 'sadar', city: 'ambala', state: 'haryana', pincode: '123456', address_type: 0)
   Address.find_or_create_by!(addressable: teacher, address_line_1: '#72', address_line_2: 'sadar', city: 'kaithal', state: 'haryana', pincode: '656789', address_type: 1)
@@ -27,20 +28,22 @@ ActiveRecord::Base.transaction do
 
   Address.find_or_create_by!(addressable: admin, address_line_1: '#73', address_line_2: 'rai wala', city: 'ynr', state: 'haryana', pincode: '454345', address_type: 0)
 
-  standard = Standard.find_or_create_by!(title: '1', section: 'A', school: school, teacher_id: teacher.id)
+  standard = Standard.find_or_create_by!(title: '1', school: school)
+
+  section  = Section.find_or_create_by!(name: 'a', standard: standard, teacher_id: teacher.id)
 
   guardian = Guardian.find_or_create_by!(first_name: 'parent', last_name: 'sharma', gender: 'male', status: 1, qualification: 'mba', role: 1, contact_no: '5653589098', spouse_name: 'mother name', occupation: 'salaried')
 
   student = Student.find_or_create_by!(first_name: 'student', last_name: 'sharma', gender: 'male', school: school, guardian_id: guardian.id, dob: Date.today, role: 5, contact_no: '2343456567')
 
-  student_detail = StudentDetail.find_or_create_by!(student: student, admission_no: '123', roll_no: '1', admission_date: 1.year.ago, standard: standard, category: 'general')
+  student_detail = StudentDetail.find_or_create_by!(student: student, admission_no: '123', roll_no: '1', admission_date: 1.year.ago, section: section, category: 'general')
 
   Address.find_or_create_by!(addressable: student, address_line_1: '#75', address_line_2: 'mahesh nagar', city: 'kkr', state: 'haryana', pincode: '987653', address_type: 0)
   Address.find_or_create_by!(addressable: student, address_line_1: '#76', address_line_2: 'rohini', city: 'gurgaon', state: 'haryana', pincode: '234321', address_type: 0)
 
-  subject1 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'Hindi')
-  subject2 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'english')
-  subject3 = Subject.find_or_create_by!(standard: standard, teacher: teacher, title: 'maths')
+  subject1 = Subject.find_or_create_by!(section: section, teacher: teacher, title: 'Hindi')
+  subject2 = Subject.find_or_create_by!(section: section, teacher: teacher, title: 'english')
+  subject3 = Subject.find_or_create_by!(section: section, teacher: teacher, title: 'maths')
 
   Homework.find_or_create_by!(subject: subject1, description: 'complete chapter 1', date: Date.today)
   Homework.find_or_create_by!(subject: subject1, description: 'complete chapter 2', date: 2.days.ago)
@@ -57,7 +60,7 @@ ActiveRecord::Base.transaction do
 
   StudentPreviousDetail.find_or_create_by!(student: student, school: 'SBBM', year: '2018', board: 'haryana board of education', standard: '8th', reason_of_leaving: "father's job transfer")
 
-  exam_group = ExamGroup.find_or_create_by!(standard: standard, title: 'semester 1')
+  exam_group = ExamGroup.find_or_create_by!(section: section, title: 'semester 1')
   exam1 = Exam.find_or_create_by!(exam_group: exam_group, subject: subject1, maximum_marks: 100, passing_marks: 33, subject_code: '101', date: 4.days.ago)
   exam2 = Exam.find_or_create_by!(exam_group: exam_group, subject: subject2, maximum_marks: 100, passing_marks: 33, subject_code: '102', date: 14.days.ago)
   exam3 = Exam.find_or_create_by!(exam_group: exam_group, subject: subject3, maximum_marks: 100, passing_marks: 33, subject_code: '103', date: Date.today + 15.days)

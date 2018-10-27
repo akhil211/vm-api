@@ -2,7 +2,7 @@ class Guardian < User
 
   attr_accessor :school
 
-  default_scope { :guardian }
+  default_scope { where(role: :guardian) }
 
   has_many   :wards, class_name: :Student, foreign_key: :guardian_id
 

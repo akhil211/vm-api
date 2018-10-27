@@ -12,8 +12,6 @@ Rails.application.routes.draw do
       resources  :users
 
       resources  :schools, shallow: true do
-        get :profile, on: :member
-
         resources :news
         resources :events
         resources :albums do
@@ -25,7 +23,6 @@ Rails.application.routes.draw do
         get :attendances, on: :member
         get :homework_dates, on: :member
         get :homework_details, on: :member
-        get :profile, on: :member
       end
 
       resources :teachers do
@@ -39,8 +36,17 @@ Rails.application.routes.draw do
       end
 
       resources :alerts, only: [:index, :show]
-      resources :standards do
+      resources :sections do
         get :subjects, on: :member
+        get :students, on: :member
+      end
+
+      resources :principals do
+        collection do
+          get :dashboard
+          get :per_class_students
+          get :per_section_students
+        end
       end
 
     end

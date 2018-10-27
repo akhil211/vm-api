@@ -3,8 +3,12 @@ class Api::V1::TeachersController < Api::V1::BaseController
   before_action :set_teacher
 
   def classes
-    standards = obj_array(@teacher.standards, 'StandardsSerializer')
-    render_success(standards)
+    sections = obj_array(@teacher.sections, 'SectionsSerializer')
+    render_success(sections)
+  end
+
+  def show
+    render_success(TeacherSerializer.new(@teacher))
   end
 
   private

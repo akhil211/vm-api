@@ -3,7 +3,7 @@ class Principal < User
   #associations
   belongs_to :school
 
-  default_scope { :principal }
+  default_scope { where(role: :principal) }
 
   #validations
   validates :qualification, presence: true

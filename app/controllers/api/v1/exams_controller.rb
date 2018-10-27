@@ -4,7 +4,7 @@ class Api::V1::ExamsController < Api::V1::BaseController
   before_action :set_exam_group, only: [:list]
 
   def index
-    exam_groups = obj_array(@student.standard.exam_groups, 'ExamGroupSerializer')
+    exam_groups = obj_array(@student.section.exam_groups, 'ExamGroupSerializer')
     render_success({exam_groups: exam_groups})
   end
 

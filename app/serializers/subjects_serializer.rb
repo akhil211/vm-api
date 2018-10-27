@@ -2,7 +2,7 @@ class SubjectsSerializer < ActiveModel::Serializer
   attributes :id, :title, :color_code, :homework_allotment_flag
 
   def homework_allotment_flag
-    'no'
+    object.homework_alloted?
   end
 
   def title

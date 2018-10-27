@@ -2,7 +2,8 @@ class School < ApplicationRecord
 
   #associations
   has_many :albums, dependent: :destroy
-  has_many :users
+  has_many :students
+  has_many :teachers
   has_many :events
   has_many :news, class_name: :BulletinBoard, dependent: :destroy
   has_many :standards, dependent: :destroy

@@ -1,7 +1,7 @@
 class ExamGroup < ApplicationRecord
 
   #associations
-  belongs_to  :standard
+  belongs_to  :section
   has_many    :exams
 
   #validations

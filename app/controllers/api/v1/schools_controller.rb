@@ -1,8 +1,8 @@
 class Api::V1::SchoolsController < Api::V1::BaseController
 
-  before_action :set_school, only: [:profile]
+  before_action :set_school
 
-  def profile
+  def show
     render_success(SchoolSerializer.new(@school))
   end
 
