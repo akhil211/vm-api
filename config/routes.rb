@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources  :users
 
       resources  :schools, shallow: true do
+        get :teachers, on: :member
         resources :news
         resources :events
         resources :albums do
@@ -46,6 +47,8 @@ Rails.application.routes.draw do
           get :dashboard
           get :per_class_students
           get :per_section_students
+          get :app_download_stats
+          
         end
       end
 

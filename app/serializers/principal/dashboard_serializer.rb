@@ -32,10 +32,9 @@ class Principal::DashboardSerializer < ActiveModel::Serializer
 
   def app_downloads
   	school = object.school
-  	teachers_app_downloads = school.teachers.where.not(last_login: nil).size
-  	school_students_guardians_id = school.students.map { |student| student.guardian.id }
-  	gaurdian_size = Guardian.where(id: school_students_guardians_id).where.not(last_login: nil).size
-  	return teachers_app_downloads + gaurdian_size
+  	teachers_app_downloads = school.teachers_app_download_size
+  	
+  	return school.teachers_app_download_size + school.guardian_app_download_size
   end
 
 end

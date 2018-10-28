@@ -13,5 +13,10 @@ class Address < ApplicationRecord
   #enums
   enum address_type: [:permanent, :correspondence]
 
+  # methods
+
+  def full_address
+    [address_line_1, address_line_2, landmark, :city, :state, :pincode].join(', ')
+  end
 
 end

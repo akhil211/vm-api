@@ -27,6 +27,14 @@ class User < ApplicationRecord
     addresses.correspondence.try(:first)
   end
 
+  def permament_address_full
+    permanent_address.full_address
+  end
+
+  def correspondence_address_full
+    correspondence_address.full_address
+  end
+
   def full_name
     [ self.try(:first_name), self.try(:last_name) ].join(' ').try(:titleize)
   end

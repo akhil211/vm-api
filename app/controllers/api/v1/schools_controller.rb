@@ -6,6 +6,11 @@ class Api::V1::SchoolsController < Api::V1::BaseController
     render_success(SchoolSerializer.new(@school))
   end
 
+  def teachers
+  	teachers = obj_array(@school.teachers, 'Principal::TeachersSerializer')
+    render_success({teachers: teachers})
+  end
+
   private
 
   def set_school

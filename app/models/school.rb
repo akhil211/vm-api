@@ -4,6 +4,7 @@ class School < ApplicationRecord
   has_many :albums, dependent: :destroy
   has_many :students
   has_many :teachers
+  has_many :principals
   has_many :events
   has_many :news, class_name: :BulletinBoard, dependent: :destroy
   has_many :standards, dependent: :destroy
@@ -35,6 +36,19 @@ class School < ApplicationRecord
 
   def image
     attachments.image.try(:first)
+  end
+
+  def teachers_app_download_size
+    teachers.where.not(last_login: nil).size
+  end
+
+  def principals_app_download_size
+    principals.where.not(last_login: nil).size
+  end
+
+  def guardian_app_download_size
+    school_students_guardians_id = students.map { |student| student.guardian.id }
+    Guardian.where(id: school_students_guardians_id).where.not(last_login: nil).size
   end
 
   private

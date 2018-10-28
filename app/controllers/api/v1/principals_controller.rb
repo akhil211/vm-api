@@ -16,6 +16,10 @@ class Api::V1::PrincipalsController < Api::V1::BaseController
     	render_success(sections)
 	end
 
+	def app_download_stats
+    	render_success(Principal::StatsSerializer.new(current_user))
+	end
+
 	private
 
 	def set_standard
